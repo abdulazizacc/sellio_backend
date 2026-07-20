@@ -14,6 +14,7 @@ import org.shangahi.sellio_backend.service.StoreService
 import org.springdoc.core.annotations.ParameterObject
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
@@ -28,9 +29,11 @@ class StoreController(
     private val storeService: StoreService
 ) {
     @StoreDoc.CreateStore
-    @PostMapping("/create")
-    fun addStore(
-        @RequestBody request: CreateStoreRequest,
+    @PostMapping("/create" ,
+        consumes = [MediaType.MULTIPART_FORM_DATA_VALUE]
+    )
+    fun createStore(
+        @ModelAttribute request: CreateStoreRequest,
         @AuthenticationPrincipal ownerId: UUID
     ): ResponseEntity<StoreCreationResponse> {
 
